@@ -10,6 +10,8 @@ var T = new Twit({
 });
 
 
+
+
 const getDataFromRidracoli = async () => {
 
   const url = "https://www.romagnacque.it/datidiretta/index2.php";
@@ -23,6 +25,7 @@ const getDataFromRidracoli = async () => {
     if (!error && res.statusCode == 200) {
 
       const ridracoliObj = body;
+      var currentDate = new Date().toLocaleTimeString();;
 
       const maxVolumeLevel = 33060000;
       const currentVolumeLevel = ridracoliObj.volumeInvaso;
@@ -31,17 +34,20 @@ const getDataFromRidracoli = async () => {
       const airTemperature = ridracoliObj.idrometeoRidraccoli.CtemperaturaAria;
 
 
-      const textToTwitt = `Il volume dell'invaso è al ${volumePercentage} %, la temperatura è di ${airTemperature} °`
+      const textToTwitt = `Il volume dell'invaso è al ${volumePercentage} %, la temperatura è di ${airTemperature} ° - (${currentDate})`
 
       console.log(textToTwitt);
 
-      // T.post('statuses/update', { status: textToTwitt }, function (err, data, response) {
-      //   console.log(data);
-      // })
+      T.post('statuses/update', { status: textToTwitt }, function (err, data, response) {
+        console.log(data);
+      })
 
     };
   });
 
 };
 
-getDataFromRidracoli();
+
+setInterval(getDataFromRidracoli, 60*60*1000);
+
+
