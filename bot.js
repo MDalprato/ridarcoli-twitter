@@ -48,6 +48,6 @@ const getDataFromRidracoli = async () => {
 };
 
 
-setInterval(getDataFromRidracoli, 60*60*1000);
+setInterval(getDataFromRidracoli, process.env.INTERVAL);
 
 
